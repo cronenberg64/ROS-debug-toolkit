@@ -11,6 +11,8 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import fs from 'fs';
+import path from 'path';
 
 const AnswerRos2QuestionInputSchema = z.object({
   question: z.string().describe('The question about ROS2.'),
@@ -23,8 +25,47 @@ const AnswerRos2QuestionOutputSchema = z.object({
 });
 export type AnswerRos2QuestionOutput = z.infer<typeof AnswerRos2QuestionOutputSchema>;
 
+/**
+ * Simple keyword-based retrieval from local markdown docs.
+ * Returns an array of {file, snippet} objects.
+ */
+async function retrieveRelevantDocs(question: string, maxResults = 3): Promise<{file: string, snippet: string}[]> {
+  const docsDir = path.resolve(process.cwd(), 'docs');
+  const files = fs.readdirSync(docsDir).filter(f => f.endsWith('.md'));
+  const results: {file: string, snippet: string, score: number}[] = [];
+  for (const file of files) {
+    const content = fs.readFileSync(path.join(docsDir, file), 'utf8');
+    // Simple keyword match: count question words in content
+    const words = question.toLowerCase().split(/\W+/).filter(Boolean);
+    let score = 0;
+    for (const w of words) {
+      if (content.toLowerCase().includes(w)) score++;
+    }
+    if (score > 0) {
+      // Take a snippet (first 300 chars containing a keyword)
+      const idx = content.toLowerCase().indexOf(words[0]);
+      const snippet = idx >= 0 ? content.slice(Math.max(0, idx - 50), idx + 250) : content.slice(0, 300);
+      results.push({file, snippet, score});
+    }
+  }
+  results.sort((a, b) => b.score - a.score);
+  return results.slice(0, maxResults).map(r => ({file: r.file, snippet: r.snippet}));
+}
+
 export async function answerRos2Question(input: AnswerRos2QuestionInput): Promise<AnswerRos2QuestionOutput> {
-  return answerRos2QuestionFlow(input);
+  // Retrieve relevant docs
+  const docs = await retrieveRelevantDocs(input.question);
+  const sources = docs.map(d => d.file);
+  // Compose context for the LLM
+  const context = docs.map(d => `Source: ${d.file}\n${d.snippet}`).join('\n---\n');
+  // Call the LLM with context
+  const {output} = await prompt({
+    question: `${input.question}\n\nContext:\n${context}`
+  });
+  return {
+    answer: output!.answer,
+    sources,
+  };
 }
 
 const prompt = ai.definePrompt({
