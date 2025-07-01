@@ -11,7 +11,7 @@
 ![Zod](https://img.shields.io/badge/Zod-TS--schemas-ff69b4)
 ![Firebase](https://img.shields.io/badge/Firebase-Hosting-orange)
 
-> **Live Demo:** _Coming Soon_
+**Live Demo:** https://qros.netlify.app
 
 QROS Copilot is an AI-powered web assistant that streamlines ROS2 (Robot Operating System 2) development. It provides intelligent tools for debugging, documentation, and troubleshooting, all accessible through a modern Next.js web interface.
 
