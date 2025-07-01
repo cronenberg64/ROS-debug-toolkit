@@ -1,9 +1,15 @@
 # QROS Copilot
 
 [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
-![Node.js](https://img.shields.io/badge/node-%3E=20.0.0-brightgreen)
-![Next.js](https://img.shields.io/badge/next.js-15-blue)
-![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
+![ROS2](https://img.shields.io/badge/ROS2-Humble-blueviolet)
+![Next.js](https://img.shields.io/badge/Next.js-15-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-4.9%2B-blue)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38bdf8)
+![shadcn/ui](https://img.shields.io/badge/shadcn--ui-%20-lightgrey)
+![Genkit](https://img.shields.io/badge/Genkit-AI-yellowgreen)
+![Google AI](https://img.shields.io/badge/Google%20AI-LLM-yellow)
+![Zod](https://img.shields.io/badge/Zod-TS--schemas-ff69b4)
+![Firebase](https://img.shields.io/badge/Firebase-Hosting-orange)
 
 > **Live Demo:** _Coming Soon_
 
