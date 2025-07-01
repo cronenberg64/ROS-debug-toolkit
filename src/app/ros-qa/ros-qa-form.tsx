@@ -104,19 +104,24 @@ export function RosQaForm() {
                 {result.answer}
               </ReactMarkdown>
             </div>
-            {result.sources && result.sources.length > 0 ? (
+            {result.sources && result.sources.length > 0 && (
               <div>
-                <h3 className="font-semibold mb-2" id="sources-heading">Sources</h3>
-                <ul className="list-disc list-inside text-sm space-y-1" aria-labelledby="sources-heading">
+                <h3 className="font-semibold mb-2">Sources</h3>
+                <ul className="list-disc list-inside text-sm space-y-1">
                   {result.sources.map((source, index) => (
                     <li key={index}>
-                      <span className="text-muted-foreground">{source}</span>
+                      <a
+                        href={source}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline"
+                      >
+                        {source}
+                      </a>
                     </li>
                   ))}
                 </ul>
               </div>
-            ) : (
-              <div className="text-sm text-muted-foreground">No sources found in documentation.</div>
             )}
           </CardContent>
         </Card>
