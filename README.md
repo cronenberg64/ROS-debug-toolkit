@@ -1,4 +1,4 @@
-# QROS Copilot
+# Ros Debug Toolkit
 
 [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 ![ROS2](https://img.shields.io/badge/ROS2-Humble-blueviolet)
